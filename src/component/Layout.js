@@ -9,7 +9,7 @@ const poppins = Poppins({
 
 const Layout = ({ children }) => {
     return (
-        <div>
+        <div className="max-w-[1440px] mx-auto">
         {/* Apply font in head */}
         <style jsx global>
             {`
