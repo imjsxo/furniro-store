@@ -1,6 +1,7 @@
 import { Poppins } from "next/font/google";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const poppins = Poppins({
     weight: ["100", "200","300","400","500","600","700","800"],

@@ -13,13 +13,18 @@ module.exports = {
         'iconsearch': '28px',
         'maxcontainer': '1440px',
         'maxnavbar': '1286px',
-        'imageproduct': '285px'
+        'imageproduct': '285px',
+        'sizebox': '30px'
 
       },
       backgroundColor: {
         'boxOrange': '#B88E2F',
         'buttonBuy': '#FFF3E3',
-        'Productcard': '#F4F5F7'
+        'Productcard': '#F4F5F7',
+        'price': '#9F9F9F',
+        'cream': '#F9F1E7',
+        'violet': '#816DFA',
+        'bordergrey': '#D9D9D9'
       },
       fontSize: {
         '5.5xl': '52px',
@@ -33,6 +38,12 @@ module.exports = {
         'banner-height': '718px',
         'imageheight': '301px',
         'maxproductcard': '500px'
+      },
+      margin: {
+        'rightImage': '105px'
+      },
+      padding: {
+        'sizebox': '5px'
       }
     },
   },
