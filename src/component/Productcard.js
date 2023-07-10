@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Productcard = () => {
+const Productcard = (props) => {
     const ListProduct = [{
         image: '/images/agoura_dt.jpg',
         name: 'Agoura Extendable Dining Table',
@@ -48,10 +48,14 @@ const Productcard = () => {
         desc: 'Good table Lamp',
         price: 'Rp 2.000.000'
     }]
+    let filteredProduct = ListProduct
+    if(props.count != null) {
+        filteredProduct = ListProduct.slice(0,props.count)
+    }
     return (
         <>
             {
-                ListProduct.map(product => {
+                filteredProduct.map(product => {
                     return (
                         <div className='flex flex-col w-[285px] max-h-[500px] bg-[#F4F5F7]'>
                             <img src={product.image} alt="image" className='h-[301px] w-[285px] object-cover' />

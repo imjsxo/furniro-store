@@ -1,13 +1,37 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import ReactStars from 'react-stars';
 import { FaFacebook } from 'react-icons/fa'
 import { AiFillTwitterCircle, AiFillInstagram } from 'react-icons/ai'
+import Productcard from '@/component/Productcard';
+import Description from '@/component/Description';
+import AdditionalInformation from '@/component/AdditionalInformation';
 
 class productpage extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            descriptionShow: true,
+            additionalInformationShow: false
+        }
+    }
+
+    clickDescription = () => {
+        this.setState({
+            descriptionShow: true,
+            additionalInformationShow: false
+        })
+    }
+
+    clickAdditionalInformation = () => {
+        this.setState({
+            descriptionShow: false,
+            additionalInformationShow: true
+        })
+    }
     render() {
         return (
-            <div className='max-w-[1286px] mx-auto'>
-                <section className='mt-8 flex'>
+            <div>
+                <section className='mt-8 flex max-w-[1286px] mx-auto'>
                     <div className='w-1/2 flex justify-center mr-[105px]'>
                         <img src="/images/sofa.jpg" alt="" />
                     </div>
@@ -17,8 +41,8 @@ class productpage extends Component {
                         <ReactStars
                             count={5}
                             size={28}
-                            color2={'#FFC700'} 
-                            className='mt-4'/>
+                            color2={'#FFC700'}
+                            className='mt-4' />
                         <span className='text-xs mt-4'>
                             Setting the bar as one of the loudest speakers in its class,
                             the Kilburn is a compact,
@@ -63,15 +87,47 @@ class productpage extends Component {
                                         <td>Share</td>
                                         <td className='px-4'>:</td>
                                         <td className='flex gap-6'>
-                                            <FaFacebook className='w-5 h-5 text-black'/>
-                                            <AiFillInstagram className='w-5 h-5 text-black'/>
-                                            <AiFillTwitterCircle className='w-5 h-5 text-black'/>
+                                            <FaFacebook className='w-5 h-5 text-black' />
+                                            <AiFillInstagram className='w-5 h-5 text-black' />
+                                            <AiFillTwitterCircle className='w-5 h-5 text-black' />
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
+                </section>
+                <section className='mt-16 pdp-section'>
+                    <div className='max-w-[1286px] mx-auto'>
+                        <div className='flex items-center justify-center  gap-12'>
+                            <h1 className={`${this.state.descriptionShow ? 'font-bold' : 'font-normal'} my-12 text-2xl`}
+                                onClick={this.clickDescription} >
+                                Description
+                            </h1>
+                            <h1 className={`${this.state.additionalInformationShow ? 'font-bold' : 'font-normal'} my-12 text-2xl`}
+                                onClick={this.clickAdditionalInformation}>
+                                Additional Information
+                            </h1>
+                        </div>
+                        <div>
+                            {
+                                this.state.descriptionShow && <Description />
+                            }
+                            {
+                                this.state.additionalInformationShow && <AdditionalInformation />
+                            }
+                        </div>
+                    </div>
+                </section>
+                <section className='mt-16 pdp-section'>
+                    <div className='flex flex-col items-center max-w-[1286px] mx-auto'>
+                        <h1 className='my-12 text-4xl font-bold'>Related Products</h1>
+                        <div className='flex flex-wrap gap-8'>
+                            <Productcard count={4} />
+                            <button className='border border-[#B88E2F] py-3 px-20'>Show More</button>
+                        </div>
+                    </div>
+
                 </section>
             </div>
         );
