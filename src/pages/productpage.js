@@ -122,9 +122,9 @@ class productpage extends Component {
                 <section className='mt-16 pdp-section'>
                     <div className='flex flex-col items-center max-w-[1286px] mx-auto'>
                         <h1 className='my-12 text-4xl font-bold'>Related Products</h1>
-                        <div className='flex flex-wrap gap-8'>
+                        <div className='flex flex-wrap gap-8 justify-center'>
                             <Productcard count={4} />
-                            <button className='border border-[#B88E2F] py-3 px-20'>Show More</button>
+                            <button className='border border-[#B88E2F] py-3 px-20 mb-24'>Show More</button>
                         </div>
                     </div>
 

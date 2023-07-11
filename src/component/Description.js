@@ -15,9 +15,9 @@ class Description extends Component {
                     preferences while the guitar-influenced leather strap enables easy and stylish
                     travel.
                 </p>
-                <div className='flex mt-9'>
+                <div className='flex mt-9 gap-5'>
                     <img src="/images/desc-img.png" alt="image" />
-                    <img src="/images/desc-img2.png" alt="image" />
+                    <img src="/images/desc-img.png" alt="image" />
                 </div>
             </div>
         );

@@ -40,7 +40,7 @@ export default function Home() {
         <button className='mt-8 mb-16 px-20 py-3 text-base font-semibold border border-[#B88E2F] text-[#B88E2F] w-fit'>Show More</button>
       </section>
 
-      <section>
+      <section className='mb-12'>
         <p className='text-xl font-semibold text-gray-400 text-center'>Share your setup with</p>
         <h1 className='text-[40px] font-bold text-center'>#FuniroFurniture</h1>
         <img src="/images/banner2.png" alt="" />

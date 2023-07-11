@@ -10,3 +10,12 @@
 .pdp-section {
     border-top: 1px solid #D9D9D9;
 }
+
+footer {
+    border-top: 1px solid #9F9F9F;
+}
+
+.newsletter input,
+.newsletter button {
+    border-bottom: 2px solid #000000;
+}
