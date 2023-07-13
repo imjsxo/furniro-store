@@ -14,7 +14,8 @@ module.exports = {
         'maxcontainer': '1440px',
         'maxnavbar': '1286px',
         'imageproduct': '285px',
-        'sizebox': '30px'
+        'sizebox': '30px',
+        'category': '23%'
 
       },
       backgroundColor: {
@@ -24,7 +25,9 @@ module.exports = {
         'price': '#9F9F9F',
         'cream': '#F9F1E7',
         'violet': '#816DFA',
-        'bordergrey': '#D9D9D9'
+        'bordergrey': '#D9D9D9',
+        'waranty': '#FAF3EA',
+        'textgrey': '#898989'
       },
       fontSize: {
         '5.5xl': '52px',
