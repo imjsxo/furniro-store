@@ -1,0 +1,28 @@
+category
+- image
+- name
+
+subcategory:
+- image
+- name
+
+product:
+- image
+- name
+- subname
+- price
+- category
+- subcategory
+- desc
+- size
+- color
+- rating
+- sku (code)
+- additional information
+
+api:
+- get category
+- get product
+- get detail product
+- get product by category
+- get product by subcategory
