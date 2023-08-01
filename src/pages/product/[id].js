@@ -1,3 +1,4 @@
+import { useRouter } from "next/router"
 import React, { Component, useState } from 'react';
 import ReactStars from 'react-stars';
 import { FaFacebook } from 'react-icons/fa'
@@ -5,18 +6,56 @@ import { AiFillTwitterCircle, AiFillInstagram } from 'react-icons/ai'
 import Productcard from '@/component/Productcard';
 import Description from '@/component/Description';
 import AdditionalInformation from '@/component/AdditionalInformation';
+import axios from 'axios';
 
-class productpagess extends Component {
-    
+const productpagerouter = (props) => {
+    const router = useRouter()
+    return <ProductPage {...props} router={router} />
+}
+
+export class ProductPage extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            descriptionShow: true,
+            additionalInformationShow: false,
+            id: props.router.query.id,
+            productData: null
+        }
+        console.log('idnya lur', props.router.query.id)
+    }
+
+    componentDidMount() {
+        axios.get(`http://localhost:3001/product/${this.state.id}`)
+          .then(data => {
+            this.setState({ productData: data.data })
+            console.log('hasil',data.data)
+          })
+      }
+
+    clickDescription = () => {
+        this.setState({
+            descriptionShow: true,
+            additionalInformationShow: false
+        })
+    }
+
+    clickAdditionalInformation = () => {
+        this.setState({
+            descriptionShow: false,
+            additionalInformationShow: true
+        })
+    }
     render() {
+        const { productData } = this.state
         return (
-            <div>
+            productData && <div>
                 <section className='mt-8 flex max-w-[1286px] mx-auto'>
                     <div className='w-1/2 flex justify-center mr-[105px]'>
                         <img src="/images/sofa.jpg" alt="" />
                     </div>
                     <div className='w-1/2'>
-                        <h3 className='text-[42px] font-normal'>Asgaard sofa</h3>
+                        <h3 className='text-[42px] font-normal'>{productData.product_name}</h3>
                         <p className='text-[#9F9F9F] text-2xl font-medium'>Rs. 250,000.00</p>
                         <ReactStars
                             count={5}
@@ -103,15 +142,15 @@ class productpagess extends Component {
                     <div className='flex flex-col items-center max-w-[1286px] mx-auto'>
                         <h1 className='my-12 text-4xl font-bold'>Related Products</h1>
                         <div className='flex flex-wrap gap-8 justify-center'>
-                            <Productcard count={4} />
+                            {/* <Productcard count={4} /> */}
                             <button className='border border-[#B88E2F] py-3 px-20 mb-24'>Show More</button>
                         </div>
                     </div>
 
                 </section>
             </div>
-        );
+        )
     }
 }
 
-export default productpage;
+export default productpagerouter;

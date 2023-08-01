@@ -1,6 +1,7 @@
 import Productcard from '@/component/Productcard';
 import React, { Component } from 'react';
 import axios from 'axios';
+import Link from 'next/link';
 
 class index extends Component {
   constructor(props) {
@@ -46,9 +47,9 @@ class index extends Component {
         <section className='flex justify-center flex-col items-center'>
           <h1 className='text-center text-[32px] font-bold mb-8'>Our Products</h1>
           <div className='max-w-[1286px] mx-auto flex flex-wrap gap-8 justify-center'>
-            {
-              this.state.productData && <Productcard productData={this.state.productData} />
-            }
+              {
+                this.state.productData && <Productcard productData={this.state.productData} />
+              }
           </div>
           <button className='mt-8 mb-16 px-20 py-3 text-base font-semibold border border-[#B88E2F] text-[#B88E2F] w-fit'>Show More</button>
         </section>
