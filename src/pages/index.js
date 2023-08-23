@@ -7,16 +7,23 @@ class index extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      productData: null
+      productData: null,
+      productCategory: null
     };
   }
   componentDidMount() {
     axios.get('http://localhost:3001/product')
       .then(data => {
         this.setState({ productData: data.data })
-      })
+      }),
+
+      axios.get('http://localhost:3001/category')
+        .then(data => {
+          this.setState({ productCategory: data.data })
+        })
   }
   render() {
+    const { productData } = this.state
     return (
       <>
         <section className='bg-hero-banner h-banner-height mx-auto flex justify-end items-center'>
@@ -29,29 +36,40 @@ class index extends Component {
         <section className='my-14'>
           <h1 className='text-center text-[32px] font-bold'>Browse The Range</h1>
           <div className='flex justify-center gap-5 mt-16'>
-            <div className='flex justify-center flex-col'>
-              <img src="/images/dining.png" alt="dining" className='mb-8' />
-              <span className='text-xl font-semibold text-center'>Dining</span>
-            </div>
-            <div className='flex justify-center flex-col'>
-              <img src="/images/living.png" alt="" className='mb-8' />
-              <span className='text-xl font-semibold text-center'>Living</span>
-            </div>
-            <div className='flex justify-center flex-col'>
-              <img src="/images/bedroom.png" alt="" className='mb-8' />
-              <span className='text-xl font-semibold text-center'>Bedroom</span>
-            </div>
+            {
+              this.state.productCategory && this.state.productCategory.map((category) => {
+                return (
+                  <Link
+                    className='flex justify-center flex-col'
+                    href={{
+                      pathname: `categories/${category.id_category}`,
+                      query: {
+                        id_category: category.id_category
+                      }
+                    }}>
+                    <img src={category.image} alt="image" className='mb-8' />
+                    <span className='text-xl font-semibold text-center capitalize'>{category.category_name}</span>
+                  </Link>
+                )
+              })
+            }
           </div>
+
         </section>
 
         <section className='flex justify-center flex-col items-center'>
           <h1 className='text-center text-[32px] font-bold mb-8'>Our Products</h1>
           <div className='max-w-[1286px] mx-auto flex flex-wrap gap-8 justify-center'>
-              {
-                this.state.productData && <Productcard productData={this.state.productData} />
-              }
+            {
+              this.state.productData && <Productcard productData={this.state.productData} />
+            }
           </div>
-          <button className='mt-8 mb-16 px-20 py-3 text-base font-semibold border border-[#B88E2F] text-[#B88E2F] w-fit'>Show More</button>
+
+          <Link href={'/product/catalog'} className='mt-8 mb-16 px-20 py-3 text-base font-semibold border border-[#B88E2F] text-[#B88E2F] w-fit'>
+            Show More
+          </Link>
+
+
         </section>
 
         <section className='mb-12'>

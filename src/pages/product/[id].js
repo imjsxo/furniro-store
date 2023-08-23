@@ -1,11 +1,8 @@
 import { useRouter } from "next/router"
 import React, { Component, useState } from 'react';
-import ReactStars from 'react-stars';
 import { FaFacebook } from 'react-icons/fa'
 import { AiFillTwitterCircle, AiFillInstagram } from 'react-icons/ai'
 import Productcard from '@/component/Productcard';
-import Description from '@/component/Description';
-import AdditionalInformation from '@/component/AdditionalInformation';
 import axios from 'axios';
 
 const productpagerouter = (props) => {
@@ -20,18 +17,25 @@ export class ProductPage extends Component {
             descriptionShow: true,
             additionalInformationShow: false,
             id: props.router.query.id,
-            productData: null
+            productData: null,
+            productCategory: null
         }
+        this.convertPrice = this.convertPrice.bind(this)
+        this.colorLabel = this.colorLabel.bind(this)
         console.log('idnya lur', props.router.query.id)
     }
 
     componentDidMount() {
         axios.get(`http://localhost:3001/product/${this.state.id}`)
-          .then(data => {
-            this.setState({ productData: data.data })
-            console.log('hasil',data.data)
-          })
-      }
+            .then(data => {
+                this.setState({ productData: data.data })
+                console.log('hasil', data.data)
+            }),
+        axios.get('http://localhost:3001/category')
+            .then(data => {
+              this.setState({ productCategory: data.data })
+            })
+    }
 
     clickDescription = () => {
         this.setState({
@@ -46,22 +50,43 @@ export class ProductPage extends Component {
             additionalInformationShow: true
         })
     }
+
+    convertPrice(price) {
+        return "Rp " + price.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.")
+    }
+
+
+    colorLabel(color) {
+        console.log("HASIL WARNA "+color)
+        switch (color) {
+            case 'coklat':
+                return "bg-orange-950"
+                break;
+            case 'merah':
+                return "bg-red-800"
+                break;
+            case 'inactive':
+                return "bg-red-800"
+                break;
+            default:
+                return "bg-red-800"
+                break;
+        }
+       
+    }
+
     render() {
         const { productData } = this.state
+        const { productCategory } = this.state
         return (
             productData && <div>
                 <section className='mt-8 flex max-w-[1286px] mx-auto'>
                     <div className='w-1/2 flex justify-center mr-[105px]'>
-                        <img src="/images/sofa.jpg" alt="" />
+                        <img src={productData.image} alt="" className="object-contain"/>
                     </div>
                     <div className='w-1/2'>
                         <h3 className='text-[42px] font-normal'>{productData.product_name}</h3>
-                        <p className='text-[#9F9F9F] text-2xl font-medium'>Rs. 250,000.00</p>
-                        <ReactStars
-                            count={5}
-                            size={28}
-                            color2={'#FFC700'}
-                            className='mt-4' />
+                        <p className='text-[#9F9F9F] text-2xl font-medium'>{this.convertPrice(productData.price)}</p>
                         <span className='text-xs mt-4'>
                             Setting the bar as one of the loudest speakers in its class,
                             the Kilburn is a compact,
@@ -71,17 +96,25 @@ export class ProductPage extends Component {
                         <div className='mt-5'>
                             <span className='text-sm text-[#9F9F9F]'>Size</span>
                             <ul className='flex gap-4 mt-3'>
-                                <li className='flex justify-center items-center bg-[#F9F1E7] w-[30px] h-[30px]  text-xs font-medium'>L</li>
-                                <li className='flex justify-center items-center bg-[#F9F1E7] w-[30px] h-[30px]  text-xs font-medium'>XL</li>
-                                <li className='flex justify-center items-center bg-[#F9F1E7] w-[30px] h-[30px]  text-xs font-medium'>XS</li>
+                                <li className='flex justify-center items-center bg-[#F9F1E7] w-[30px] h-[30px]  text-xs font-medium'>{productData.size}</li>
                             </ul>
                         </div>
                         <div className='mt-4 pb-14 border-bottom'>
-                            <span className='text-sm text-[#9F9F9F]'>Color</span>
+                            <p className="text-sm text-[#9F9F9F]">Color</p>
+                            
+
                             <ul className='flex gap-4 mt-3'>
-                                <li className='text-transparent rounded-full bg-[#816DFA] w-[30px] h-[30px]'>Violet</li>
-                                <li className='text-transparent rounded-full bg-black w-[30px] h-[30px]'>Black</li>
-                                <li className='text-transparent rounded-full bg-[#B88E2F] w-[30px] h-[30px]'>Mocca</li>
+                            {
+                                (productData.color).split(',').map(colors => {
+                                    return (
+                                        <li className="flex flex-col items-center">
+                                            <span className={`text-transparent rounded-full ${this.colorLabel(colors)} w-[30px] h-[30px] mb-1`}>{colors}</span>
+                                            <span className="text-base capitalize text-gray-600">{colors}</span>
+                                        </li>
+                                        
+                                    )
+                                })
+                            }
                             </ul>
                         </div>
                         <div className='pt-10'>
@@ -95,12 +128,8 @@ export class ProductPage extends Component {
                                     <tr className='pb-3'>
                                         <td>Category</td>
                                         <td className='px-4'>:</td>
-                                        <td>Sofas</td>
-                                    </tr>
-                                    <tr className='pb-3'>
-                                        <td>Tags</td>
-                                        <td className='px-4'>:</td>
-                                        <td>Sofa, Chair, Home, Shop</td>
+                                        {productCategory && <td>{productCategory[0].category_name}</td>}
+                                        
                                     </tr>
                                     <tr className='pb-3'>
                                         <td>Share</td>
@@ -130,10 +159,16 @@ export class ProductPage extends Component {
                         </div>
                         <div>
                             {
-                                this.state.descriptionShow && <Description />
+                                this.state.descriptionShow &&
+                                <div className='flex flex-col items-center'>
+                                    {productData.product_desc}
+                                </div>
                             }
                             {
-                                this.state.additionalInformationShow && <AdditionalInformation />
+                                this.state.additionalInformationShow &&
+                                <div className='additional-info'>
+                                    {productData.additional_information}
+                                </div>
                             }
                         </div>
                     </div>

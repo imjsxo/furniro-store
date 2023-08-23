@@ -4,56 +4,50 @@ import Link from 'next/link';
 import { Dropdown } from "@nextui-org/react";
 import SubCategoryDining from '@/component/SubCategoryDining';
 import SubCategoryBedroom from '@/component/SubCategoryBedroom';
-class productlist extends Component {
+import axios from 'axios';
+import { useRouter } from "next/router"
+
+const productlistrouter = (props) => {
+    const router = useRouter()
+    console.log('apalag?')
+    return <ProductList {...props} router={router}/>
+}
+
+export class ProductList extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            productData: null,
+            productCategory: null,
+            id_category: props.router.query.id_category
+        };
+    }
+    componentDidMount() {
+        axios.get('http://localhost:3001/productbyquery?category_id='+this.state.id_category)
+            .then(data => {
+                this.setState({ productData: data.data })
+            })
+
+        axios.get('http://localhost:3001/category/'+this.state.id_category)
+                .then(data => {
+                    this.setState({ productCategory: data.data })
+                })
+
+    }
     render() {
+        const { productCategory } = this.state
         return (
-            <div>
+            productCategory && <div>
                 <img src="/images/plp-banner.png" alt="" />
                 <div className='max-w-[1286px] mx-auto'>
-                    {/* <div className='my-12'>
-                        <h1 className='text-2xl font-semibold text-center mb-10'>LIVING ROOM</h1>
-                        <div className='flex flex-wrap gap-6 justify-center' >
-                            <Link href='#' className='w-[23%]'>
-                                <img src="/images/category-sofa.jpg" alt="images" />
-                                <p className='text-base text-center mt-5'>Sofas</p>
-                            </Link>
-                            <Link href='#' className='w-[23%]'>
-                                <img src="/images/category-coffe-table.jpg" alt="images" />
-                                <p className='text-base text-center mt-5'>Coffe Tables</p>
-                            </Link>
-                            <Link href='#' className='w-[23%]'>
-                                <img src="/images/category-entertain.jpg" alt="images" />
-                                <p className='text-base text-center mt-5'>Entertainment Units</p>
-                            </Link>
-                            <Link href='#' className='w-[23%]'>
-                                <img src="/images/category-console-table.jpg" alt="images" />
-                                <p className='text-base text-center mt-5'>Console Tables</p>
-                            </Link>
-                            <Link href='#' className='w-[23%]'>
-                                <img src="/images/category-armchair.jpg" alt="images" />
-                                <p className='text-base text-center mt-5'>Armchairs</p>
-                            </Link>
-                            <Link href='#' className='w-[23%]'>
-                                <img src="/images/category-side-table.jpg" alt="images" />
-                                <p className='text-base text-center mt-5'>Side Tables</p>
-                            </Link>
-                            <Link href='#' className='w-[23%]'>
-                                <img src="/images/category-rugs.jpg" alt="images" />
-                                <p className='text-base text-center mt-5'>Rugs</p>
-                            </Link>
-                            <Link href='#' className='w-[23%]'>
-                                <img src="/images/category-mirror.jpg" alt="images" />
-                                <p className='text-base text-center mt-5'>Mirrors</p>
-                            </Link>
-                        </div>
-                    </div> */}
-                    {/* <SubCategoryDining /> */}
-                    <SubCategoryBedroom />
+                    <div className='my-12'>
+                        <h1 className='text-2xl font-semibold text-center mb-10'>{productCategory.category_name}</h1>
+                    </div>
                     <div>
                         <div className='flex justify-between items-center bg-[#FAF3EA] py-5 px-10'>
                             <p className='text-base font-medium'>150 Items found</p>
                             <Dropdown>
-                                <Dropdown.Button light style={{fontSize: '20px'}}> Sort By</Dropdown.Button>
+                                <Dropdown.Button light style={{ fontSize: '20px' }}> Sort By</Dropdown.Button>
                                 <Dropdown.Menu aria-label="Static Actions">
                                     <Dropdown.Item>Product Name A-Z</Dropdown.Item>
                                     <Dropdown.Item>Product Name Z-A</Dropdown.Item>
@@ -61,7 +55,9 @@ class productlist extends Component {
                             </Dropdown>
                         </div>
                         <div className='flex flex-wrap gap-7 mt-12 justify-center'>
-                            <Productcard />
+                            {
+                                this.state.productData && <Productcard productData={this.state.productData} />
+                            }
                         </div>
                     </div>
                 </div>
@@ -101,4 +97,4 @@ class productlist extends Component {
     }
 }
 
-export default productlist;
+export default productlistrouter;
