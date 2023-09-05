@@ -1,0 +1,12 @@
+warna
+
+violet
+navy
+pink
+grey
+silver
+brown
+blue
+black
+cream
+green

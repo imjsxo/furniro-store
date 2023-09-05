@@ -26,8 +26,8 @@ class index extends Component {
     const { productData } = this.state
     return (
       <>
-        <section className='bg-hero-banner h-banner-height mx-auto flex justify-end items-center'>
-          <div className='bg-[#FFF3E3] w-1/2 px-9 py-14 float-right mr-16'>
+        <section className='bg-hero-banner h-banner-height mx-auto flex justify-end md:justify-start items-center'>
+          <div className='bg-[#FFF3E3] w-1/2 px-9 py-14 float-right mr-16 md:ml-10'>
             <p className='text-base font-semibold'>New Arrival</p>
             <h1 className='text-[52px] text-[#B88E2F] font-bold leading-[56px] mb-12'>Discover Our <br />New Collection</h1>
             <button className='px-16 py-6 bg-[#B88E2F] text-white text-base font-bold'>Buy Now</button>
@@ -59,9 +59,9 @@ class index extends Component {
 
         <section className='flex justify-center flex-col items-center'>
           <h1 className='text-center text-[32px] font-bold mb-8'>Our Products</h1>
-          <div className='max-w-[1286px] mx-auto flex flex-wrap gap-8 justify-center'>
+          <div className='max-w-[1286px] mx-auto flex flex-wrap gap-8'>
             {
-              this.state.productData && <Productcard productData={this.state.productData} />
+              this.state.productData && <Productcard productData={this.state.productData} count={8}/>
             }
           </div>
 

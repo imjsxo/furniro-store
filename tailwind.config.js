@@ -15,7 +15,8 @@ module.exports = {
         'maxnavbar': '1286px',
         'imageproduct': '285px',
         'sizebox': '30px',
-        'category': '23%'
+        'category': '23%',
+        'cardProduct':'45%'
 
       },
       backgroundColor: {
@@ -23,11 +24,21 @@ module.exports = {
         'buttonBuy': '#FFF3E3',
         'Productcard': '#F4F5F7',
         'price': '#9F9F9F',
-        'cream': '#F9F1E7',
-        'violet': '#816DFA',
+        'creams': '#F9F1E7',
+        'violets': '#816DFA',
         'bordergrey': '#D9D9D9',
         'waranty': '#FAF3EA',
-        'textgrey': '#898989'
+        'textgrey': '#898989',
+        'brown':'#B87333',
+        'violet':'#7A16BC',
+        'navy':'#07283E',
+        'grey':'#617584',
+        'silver': '#C0C0C0',
+        'pink': '#EA9999',
+        'blue':'#316A9E',
+        'black':'#000000',
+        'green':'#38761D',
+        'cream':'#FFFDD0'
       },
       fontSize: {
         '5.5xl': '52px',

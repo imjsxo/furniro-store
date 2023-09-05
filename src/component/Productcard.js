@@ -10,7 +10,7 @@ const Productcard = (productData) => {
         filteredProduct = ListProduct 
     }
     if (productData.count != null) {
-        filteredProduct = ListProduct.slice(0, props.count)
+        filteredProduct = ListProduct.slice(0, productData.count)
     }
 
     return (
@@ -26,8 +26,8 @@ const Productcard = (productData) => {
                                 id: product.id_product
                             }
                         }}
-                        className='flex flex-col w-[285px] max-h-[500px] bg-[#F4F5F7]'>
-                            <img src={product.image} alt="image" className='h-[301px] w-[285px] object-cover' />
+                        className='flex flex-col w-[48%] max-h-[500px] bg-[#F4F5F7]'>
+                            <img src={product.image} alt="image" className='h-[301px] object-cover' />
                             <div className='px-2 py-4'>
                                 <p className='text-2xl font-semibold '>{product.product_name}</p>
                                 <p className='text-base font-medium text-gray-300 py-2'>{product.product_subname}</p>

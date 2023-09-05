@@ -31,10 +31,10 @@ export class ProductPage extends Component {
                 this.setState({ productData: data.data })
                 console.log('hasil', data.data)
             }),
-        axios.get('http://localhost:3001/category')
-            .then(data => {
-              this.setState({ productCategory: data.data })
-            })
+            axios.get('http://localhost:3001/category')
+                .then(data => {
+                    this.setState({ productCategory: data.data })
+                })
     }
 
     clickDescription = () => {
@@ -57,22 +57,43 @@ export class ProductPage extends Component {
 
 
     colorLabel(color) {
-        console.log("HASIL WARNA "+color)
+        console.log("HASIL WARNA " + color)
         switch (color) {
-            case 'coklat':
-                return "bg-orange-950"
+            case 'brown':
+                return "bg-[#B87333]"
                 break;
-            case 'merah':
-                return "bg-red-800"
+            case 'violet':
+                return "bg-[#7A16BC]"
                 break;
-            case 'inactive':
-                return "bg-red-800"
+            case 'navy':
+                return "bg-[#07283E]"
+                break;
+            case 'grey':
+                return "bg-[#617584]"
+                break;
+            case 'silver':
+                return "bg-[#C0C0C0]"
+                break;
+            case 'black':
+                return "bg-[#000000]"
+                break;
+            case 'pink':
+                return "bg-[#EA9999]"
+                break;
+            case 'blue':
+                return "bg-[#316A9E]"
+                break;
+            case 'green':
+                return "bg-[#38761D]"
+                break;
+            case 'cream':
+                return "bg-[#FFFDD0]"
                 break;
             default:
                 return "bg-red-800"
                 break;
         }
-       
+
     }
 
     render() {
@@ -82,39 +103,26 @@ export class ProductPage extends Component {
             productData && <div>
                 <section className='mt-8 flex max-w-[1286px] mx-auto'>
                     <div className='w-1/2 flex justify-center mr-[105px]'>
-                        <img src={productData.image} alt="" className="object-contain"/>
+                        <img src={productData.image} alt="" className="object-contain" />
                     </div>
                     <div className='w-1/2'>
                         <h3 className='text-[42px] font-normal'>{productData.product_name}</h3>
                         <p className='text-[#9F9F9F] text-2xl font-medium'>{this.convertPrice(productData.price)}</p>
-                        <span className='text-xs mt-4'>
-                            Setting the bar as one of the loudest speakers in its class,
-                            the Kilburn is a compact,
-                            stout-hearted hero with a well-balanced audio which boasts
-                            a clear midrange and extended highs for a sound.
-                        </span>
-                        <div className='mt-5'>
-                            <span className='text-sm text-[#9F9F9F]'>Size</span>
-                            <ul className='flex gap-4 mt-3'>
-                                <li className='flex justify-center items-center bg-[#F9F1E7] w-[30px] h-[30px]  text-xs font-medium'>{productData.size}</li>
-                            </ul>
-                        </div>
                         <div className='mt-4 pb-14 border-bottom'>
                             <p className="text-sm text-[#9F9F9F]">Color</p>
-                            
 
                             <ul className='flex gap-4 mt-3'>
-                            {
-                                (productData.color).split(',').map(colors => {
-                                    return (
-                                        <li className="flex flex-col items-center">
-                                            <span className={`text-transparent rounded-full ${this.colorLabel(colors)} w-[30px] h-[30px] mb-1`}>{colors}</span>
-                                            <span className="text-base capitalize text-gray-600">{colors}</span>
-                                        </li>
-                                        
-                                    )
-                                })
-                            }
+                                {
+                                    (productData.color).split(',').map(colors => {
+                                        return (
+                                            <li className="flex flex-col items-center">
+                                                <span className={`text-transparent rounded-full ${this.colorLabel(colors)} w-[30px] h-[30px] mb-1`}>{colors}</span>
+                                                <span className="text-base capitalize text-gray-600">{colors}</span>
+                                            </li>
+
+                                        )
+                                    })
+                                }
                             </ul>
                         </div>
                         <div className='pt-10'>
@@ -129,7 +137,7 @@ export class ProductPage extends Component {
                                         <td>Category</td>
                                         <td className='px-4'>:</td>
                                         {productCategory && <td>{productCategory[0].category_name}</td>}
-                                        
+
                                     </tr>
                                     <tr className='pb-3'>
                                         <td>Share</td>
