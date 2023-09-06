@@ -1,7 +1,7 @@
 import Productcard from '@/component/Productcard';
 import React, { Component } from 'react';
 import Link from 'next/link';
-import { Dropdown } from "@nextui-org/react";
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
 import SubCategoryDining from '@/component/SubCategoryDining';
 import SubCategoryBedroom from '@/component/SubCategoryBedroom';
 import axios from 'axios';
@@ -19,9 +19,13 @@ export class ProductList extends Component {
         this.state = {
             productData: null,
             productCategory: null,
+            productSubCategory: null,
             id_category: props.router.query.id_category,
         };
         this.sortAz = this.sortAz.bind(this)
+        this.sortZa = this.sortZa.bind(this)
+        this.priceHightoLow = this.priceHightoLow.bind(this)
+    this.priceLowtoHigh = this.priceLowtoHigh.bind(this)
     }
     componentDidMount() {
         axios.get('http://localhost:3001/productbyquery?category_id=' + this.state.id_category)
@@ -32,6 +36,11 @@ export class ProductList extends Component {
         axios.get('http://localhost:3001/category/' + this.state.id_category)
             .then(data => {
                 this.setState({ productCategory: data.data })
+            })
+
+        axios.get('http://localhost:3001/subcategory')
+            .then(data => {
+                this.setState({ productSubCategory: data.data })
             })
 
     }
@@ -46,6 +55,32 @@ export class ProductList extends Component {
         this.setState({ productData: list })
     }
 
+    sortZa() {
+        const listZa = this.state.productData
+        listZa.sort(function (a, b) {
+            var textA = a.product_name.toUpperCase();
+            var textB = b.product_name.toUpperCase();
+            return (textB < textA) ? -1 : (textB > textA) ? 1 : 0;
+        });
+        this.setState({ productData: listZa })
+    }
+
+    priceHightoLow() {
+        const listHighLow = this.state.productData
+        listHighLow.sort(function (a, b) {
+            return b.price - a.price;
+        });
+        this.setState({ productData: listHighLow })
+    }
+
+    priceLowtoHigh() {
+        const listLowHigh = this.state.productData
+        listLowHigh.sort(function (a, b) {
+            return a.price - b.price;
+        });
+        this.setState({ productData: listLowHigh })
+    }
+
     render() {
         const { productCategory } = this.state
         return (
@@ -56,77 +91,49 @@ export class ProductList extends Component {
                         <h1 className='text-2xl font-semibold text-center mb-10'>{productCategory.category_name}</h1>
                     </div>
                     <div className='my-12'>
-                        <h1 className='text-2xl font-semibold text-center mb-10'>BEDROOM</h1>
                         <div className='flex flex-wrap gap-6 justify-center' >
-                            <Link href='#' className='w-[23%]'>
-                                <img src="/images/category-Mattresses.jpg" alt="images" />
-                                <p className='text-base text-center mt-5'>Mattresses</p>
-                            </Link>
+                            {
+                                this.state.productSubCategory && this.state.productSubCategory.map((subcategory) => {
+                                    return (
+                                        // <Link
+                                        //     className='flex justify-center flex-col'
+                                        //     href={{
+                                        //         pathname: `categories/${category.id_category}`,
+                                        //         query: {
+                                        //             id_category: category.id_category
+                                        //         }
+                                        //     }}>
+                                        //     <img src={category.image} alt="image" className='mb-8' />
+                                        //     <span className='text-xl font-semibold text-center capitalize'>{category.category_name}</span>
+                                        // </Link>
+                                        <Link href='#' className='w-[23%]'>
+                                            <img src={subcategory.image} alt="images" />
+                                            <p className='text-base text-center mt-5'>{subcategory.subcategory_name}</p>
+                                        </Link>
+                                    )
+                                })
+                            }
+
                         </div>
                     </div>
                     <div>
                         <div className='flex justify-between items-center bg-[#FAF3EA] py-5 px-10'>
                             <p className='text-base font-medium'>150 Items found</p>
-                            {/* <Dropdown>
-                                <Dropdown.Button light style={{ fontSize: '20px' }}> Sort By</Dropdown.Button>
-                                <Dropdown.Menu aria-label="Static Actions">
-                                    <Dropdown.Item  onAction={this.sortAz}>Product Name A-Z</Dropdown.Item>
-                                    <Dropdown.Item>Product Name Z-A</Dropdown.Item>
-                                </Dropdown.Menu>
-                            </Dropdown> */}
-                            <div className="relative" data-te-dropdown-ref>
-                                <button
-                                    className="flex items-center whitespace-nowrap rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] motion-reduce:transition-none"
-                                    type="button"
-                                    id="dropdownMenuButton3"
-                                    data-te-dropdown-toggle-ref
-                                    aria-expanded="false"
-                                    data-te-ripple-init
-                                    data-te-ripple-color="light">
-                                    Primary
-                                    <span className="ml-2 w-2">
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 20 20"
-                                            fill="currentColor"
-                                            className="h-5 w-5">
-                                            <path
-                                                fill-rule="evenodd"
-                                                d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                                                clip-rule="evenodd" />
-                                        </svg>
-                                    </span>
-                                </button>
-                                <ul
-                                    className="absolute z-[1000] float-left m-0 hidden min-w-max list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg dark:bg-neutral-700 [&[data-te-dropdown-show]]:block"
-                                    aria-labelledby="dropdownMenuButton3"
-                                    data-te-dropdown-menu-ref>
-                                    <li>
-                                        <a
-                                            className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-neutral-600"
-                                            href="#"
-                                            data-te-dropdown-item-ref
-                                        >Action</a
-                                        >
-                                    </li>
-                                    <li>
-                                        <a
-                                            className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-neutral-600"
-                                            href="#"
-                                            data-te-dropdown-item-ref
-                                        >Another action</a
-                                        >
-                                    </li>
-                                    <li>
-                                        <a
-                                            className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-neutral-600"
-                                            href="#"
-                                            data-te-dropdown-item-ref
-                                        >Something else here</a
-                                        >
-                                    </li>
-                                </ul>
-                            </div>
+
+                            <Dropdown>
+                                <DropdownTrigger>
+                                    <Button>
+                                        Sort By
+                                    </Button>
+                                </DropdownTrigger>
+                                <DropdownMenu aria-label="Static Actions">
+                                    <DropdownItem onClick={this.sortAz}>Product Name A-Z</DropdownItem>
+                                    <DropdownItem onClick={this.sortZa}>Product Name Z-A</DropdownItem>
+                                    <DropdownItem onClick={this.sortZa}>By Price Low-High</DropdownItem>
+                                    <DropdownItem onClick={this.sortZa}>By Price High-Low</DropdownItem>
+                                </DropdownMenu>
+                            </Dropdown>
+
                         </div>
                         <div className='flex flex-wrap gap-7 mt-12'>
                             {
