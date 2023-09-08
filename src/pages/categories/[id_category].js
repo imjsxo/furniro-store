@@ -2,14 +2,11 @@ import Productcard from '@/component/Productcard';
 import React, { Component } from 'react';
 import Link from 'next/link';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
-import SubCategoryDining from '@/component/SubCategoryDining';
-import SubCategoryBedroom from '@/component/SubCategoryBedroom';
 import axios from 'axios';
 import { useRouter } from "next/router"
 
 const productlistrouter = (props) => {
     const router = useRouter()
-    console.log('apalag?')
     return <ProductList {...props} router={router} />
 }
 
@@ -20,12 +17,15 @@ export class ProductList extends Component {
             productData: null,
             productCategory: null,
             productSubCategory: null,
+            productbySubCategory: null,
             id_category: props.router.query.id_category,
+
         };
         this.sortAz = this.sortAz.bind(this)
         this.sortZa = this.sortZa.bind(this)
         this.priceHightoLow = this.priceHightoLow.bind(this)
-    this.priceLowtoHigh = this.priceLowtoHigh.bind(this)
+        this.priceLowtoHigh = this.priceLowtoHigh.bind(this)
+        this.getProductbySubcategory = this.getProductbySubcategory.bind(this)
     }
     componentDidMount() {
         axios.get('http://localhost:3001/productbyquery?category_id=' + this.state.id_category)
@@ -38,10 +38,12 @@ export class ProductList extends Component {
                 this.setState({ productCategory: data.data })
             })
 
-        axios.get('http://localhost:3001/subcategory')
+        axios.get('http://localhost:3001/subcategory/' + this.state.id_category)
             .then(data => {
                 this.setState({ productSubCategory: data.data })
             })
+
+
 
     }
 
@@ -81,6 +83,14 @@ export class ProductList extends Component {
         this.setState({ productData: listLowHigh })
     }
 
+    getProductbySubcategory = (id_subcategory) => {
+        console.log("id subcategory",id_subcategory)
+        axios.get('http://localhost:3001/productbysubcategory?subcategory_id=' + id_subcategory)
+            .then(data => {
+                this.setState({ productData: data.data })
+            })
+    }
+
     render() {
         const { productCategory } = this.state
         return (
@@ -95,21 +105,22 @@ export class ProductList extends Component {
                             {
                                 this.state.productSubCategory && this.state.productSubCategory.map((subcategory) => {
                                     return (
-                                        // <Link
-                                        //     className='flex justify-center flex-col'
+                                        // <Link className='w-[23%]'
                                         //     href={{
-                                        //         pathname: `categories/${category.id_category}`,
+                                        //         pathname: `categories/${subcategory.id_category}`,
                                         //         query: {
-                                        //             id_category: category.id_category
+                                        //             id_category: subcategory.id_category
                                         //         }
-                                        //     }}>
-                                        //     <img src={category.image} alt="image" className='mb-8' />
-                                        //     <span className='text-xl font-semibold text-center capitalize'>{category.category_name}</span>
+                                        //     }}
+                                        // >
+                                        //     <img src={subcategory.image} alt="images" />
+                                        //     <p className='text-base text-center mt-5'>{subcategory.subcategory_name}</p>
                                         // </Link>
-                                        <Link href='#' className='w-[23%]'>
+
+                                        <div className='w-[23%]' onClick={() => this.getProductbySubcategory(subcategory.id_subcategory)}>
                                             <img src={subcategory.image} alt="images" />
                                             <p className='text-base text-center mt-5'>{subcategory.subcategory_name}</p>
-                                        </Link>
+                                        </div>
                                     )
                                 })
                             }
@@ -120,7 +131,7 @@ export class ProductList extends Component {
                         <div className='flex justify-between items-center bg-[#FAF3EA] py-5 px-10'>
                             <p className='text-base font-medium'>150 Items found</p>
 
-                            <Dropdown>
+                            {/* <Dropdown>
                                 <DropdownTrigger>
                                     <Button>
                                         Sort By
@@ -132,7 +143,7 @@ export class ProductList extends Component {
                                     <DropdownItem onClick={this.sortZa}>By Price Low-High</DropdownItem>
                                     <DropdownItem onClick={this.sortZa}>By Price High-Low</DropdownItem>
                                 </DropdownMenu>
-                            </Dropdown>
+                            </Dropdown> */}
 
                         </div>
                         <div className='flex flex-wrap gap-7 mt-12'>
