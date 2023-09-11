@@ -33,7 +33,7 @@ class index extends Component {
             <button className='px-16 py-6 bg-[#B88E2F] text-white text-base font-bold'>Buy Now</button>
           </div>
         </section>
-        <section className='my-14'>
+        <section className='my-14 px-4'>
           <h1 className='text-center text-[32px] font-bold'>Browse The Range</h1>
           <div className='flex justify-center gap-5 mt-16'>
             {
@@ -57,9 +57,9 @@ class index extends Component {
 
         </section>
 
-        <section className='flex justify-center flex-col items-center'>
+        <section className='flex justify-center flex-col items-center px-4'>
           <h1 className='text-center text-[32px] font-bold mb-8'>Our Products</h1>
-          <div className='max-w-[1286px] mx-auto flex flex-wrap gap-8'>
+          <div className='max-w-[1286px] mx-auto flex flex-wrap gap-8 lg:gap-5 md:gap-4 justify-center'>
             {
               this.state.productData && <Productcard productData={this.state.productData} count={8}/>
             }

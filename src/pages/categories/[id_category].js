@@ -105,18 +105,6 @@ export class ProductList extends Component {
                             {
                                 this.state.productSubCategory && this.state.productSubCategory.map((subcategory) => {
                                     return (
-                                        // <Link className='w-[23%]'
-                                        //     href={{
-                                        //         pathname: `categories/${subcategory.id_category}`,
-                                        //         query: {
-                                        //             id_category: subcategory.id_category
-                                        //         }
-                                        //     }}
-                                        // >
-                                        //     <img src={subcategory.image} alt="images" />
-                                        //     <p className='text-base text-center mt-5'>{subcategory.subcategory_name}</p>
-                                        // </Link>
-
                                         <div className='w-[23%]' onClick={() => this.getProductbySubcategory(subcategory.id_subcategory)}>
                                             <img src={subcategory.image} alt="images" />
                                             <p className='text-base text-center mt-5'>{subcategory.subcategory_name}</p>
