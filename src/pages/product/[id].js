@@ -1,5 +1,6 @@
 import { useRouter } from "next/router"
-import React, { Component, useState } from 'react';
+import { usePathname } from 'next/navigation';
+import React, { Component, useState, useEffect } from 'react';
 import { FaFacebook } from 'react-icons/fa'
 import { AiFillTwitterCircle, AiFillInstagram } from 'react-icons/ai'
 import Productcard from '@/component/Productcard';
@@ -7,12 +8,19 @@ import axios from 'axios';
 
 const productpagerouter = (props) => {
     const router = useRouter()
+    const pathname = usePathname();
+    useEffect(()=>{
+        if(!router.isReady) return;
+        console.log('idnya lur', router.query.id)
+    
+    }, [router.isReady]);
     return <ProductPage {...props} router={router} />
 }
 
 export class ProductPage extends Component {
     constructor(props) {
         super(props)
+        // const pathname = usePathname();
         this.state = {
             descriptionShow: true,
             additionalInformationShow: false,
@@ -22,7 +30,7 @@ export class ProductPage extends Component {
         }
         this.convertPrice = this.convertPrice.bind(this)
         this.colorLabel = this.colorLabel.bind(this)
-        console.log('idnya lur', props.router.query.id)
+        // console.log('idnya lur', pathname)
     }
 
     componentDidMount() {

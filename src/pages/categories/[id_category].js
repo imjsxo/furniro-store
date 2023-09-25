@@ -1,7 +1,5 @@
 import Productcard from '@/component/Productcard';
 import React, { Component } from 'react';
-import Link from 'next/link';
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
 import axios from 'axios';
 import { useRouter } from "next/router"
 
@@ -84,7 +82,7 @@ export class ProductList extends Component {
     }
 
     getProductbySubcategory = (id_subcategory) => {
-        console.log("id subcategory",id_subcategory)
+        console.log("id subcategory", id_subcategory)
         axios.get('http://localhost:3001/productbysubcategory?subcategory_id=' + id_subcategory)
             .then(data => {
                 this.setState({ productData: data.data })
@@ -117,22 +115,16 @@ export class ProductList extends Component {
                     </div>
                     <div>
                         <div className='flex justify-between items-center bg-[#FAF3EA] py-5 px-10'>
-                            <p className='text-base font-medium'>150 Items found</p>
-
-                            {/* <Dropdown>
-                                <DropdownTrigger>
-                                    <Button>
-                                        Sort By
-                                    </Button>
-                                </DropdownTrigger>
-                                <DropdownMenu aria-label="Static Actions">
-                                    <DropdownItem onClick={this.sortAz}>Product Name A-Z</DropdownItem>
-                                    <DropdownItem onClick={this.sortZa}>Product Name Z-A</DropdownItem>
-                                    <DropdownItem onClick={this.sortZa}>By Price Low-High</DropdownItem>
-                                    <DropdownItem onClick={this.sortZa}>By Price High-Low</DropdownItem>
-                                </DropdownMenu>
-                            </Dropdown> */}
-
+                            <p className='text-base font-medium'>
+                                {Object.keys(this.state.productData).length}
+                                <span className='ml-1'>Items found</span>
+                            </p>
+                            <div className='gap-2 flex'>
+                                <button onClick={this.sortAz} className='border rounded-lg border-[#B88E2F] text-[#B88E2F] p-2 text-base'>Product Name A-Z</button>
+                                <button onClick={this.sortZa} className='border rounded-lg border-[#B88E2F] text-[#B88E2F] p-2 text-base'>Product Name Z-A</button>
+                                <button onClick={this.priceHightoLow} className='border rounded-lg border-[#B88E2F] text-[#B88E2F] p-2 text-base'>By Price Low-High</button>
+                                <button onClick={this.priceLowtoHigh} className='border rounded-lg border-[#B88E2F] text-[#B88E2F] p-2 text-base'>By Price High-Low</button>
+                            </div>
                         </div>
                         <div className='flex flex-wrap gap-7 mt-12'>
                             {
