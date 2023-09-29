@@ -3,12 +3,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { useRouter } from "next/router"
 
-const productlistrouter = (props) => {
-    const router = useRouter()
-    return <ProductList {...props} router={router} />
-}
-
-export class ProductList extends Component {
+export default class ProductList extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -16,7 +11,7 @@ export class ProductList extends Component {
             productCategory: null,
             productSubCategory: null,
             productbySubCategory: null,
-            id_category: props.router.query.id_category,
+            id_category: null,
 
         };
         this.sortAz = this.sortAz.bind(this)
@@ -26,17 +21,20 @@ export class ProductList extends Component {
         this.getProductbySubcategory = this.getProductbySubcategory.bind(this)
     }
     componentDidMount() {
-        axios.get('http://localhost:3001/productbyquery?category_id=' + this.state.id_category)
+        const searchParams = new URLSearchParams(window.location.search);
+        const idCategory = searchParams.get('id_category');
+        this.setState({id_category : idCategory})
+        axios.get('http://localhost:3001/productbyquery?category_id=' + idCategory)
             .then(data => {
                 this.setState({ productData: data.data })
             })
 
-        axios.get('http://localhost:3001/category/' + this.state.id_category)
+        axios.get('http://localhost:3001/category/' + idCategory)
             .then(data => {
                 this.setState({ productCategory: data.data })
             })
 
-        axios.get('http://localhost:3001/subcategory/' + this.state.id_category)
+        axios.get('http://localhost:3001/subcategory/' + idCategory)
             .then(data => {
                 this.setState({ productSubCategory: data.data })
             })
@@ -116,7 +114,7 @@ export class ProductList extends Component {
                     <div>
                         <div className='flex justify-between items-center bg-[#FAF3EA] py-5 px-10'>
                             <p className='text-base font-medium'>
-                                {Object.keys(this.state.productData).length}
+                                {this.state.productData.length}
                                 <span className='ml-1'>Items found</span>
                             </p>
                             <div className='gap-2 flex'>
@@ -168,5 +166,3 @@ export class ProductList extends Component {
         );
     }
 }
-
-export default productlistrouter;

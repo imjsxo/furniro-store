@@ -6,25 +6,14 @@ import { AiFillTwitterCircle, AiFillInstagram } from 'react-icons/ai'
 import Productcard from '@/component/Productcard';
 import axios from 'axios';
 
-const productpagerouter = (props) => {
-    const router = useRouter()
-    const pathname = usePathname();
-    useEffect(()=>{
-        if(!router.isReady) return;
-        console.log('idnya lur', router.query.id)
-    
-    }, [router.isReady]);
-    return <ProductPage {...props} router={router} />
-}
-
-export class ProductPage extends Component {
+export default class ProductPage extends Component {
     constructor(props) {
         super(props)
         // const pathname = usePathname();
         this.state = {
             descriptionShow: true,
             additionalInformationShow: false,
-            id: props.router.query.id,
+            id: null,
             productData: null,
             productCategory: null
         }
@@ -34,7 +23,10 @@ export class ProductPage extends Component {
     }
 
     componentDidMount() {
-        axios.get(`http://localhost:3001/product/${this.state.id}`)
+        const searchParams = new URLSearchParams(window.location.search);
+        const productId = searchParams.get('id');
+        this.setState({id : productId})
+        axios.get(`http://localhost:3001/product/${productId}`)
             .then(data => {
                 this.setState({ productData: data.data })
                 console.log('hasil', data.data)
@@ -203,5 +195,3 @@ export class ProductPage extends Component {
         )
     }
 }
-
-export default productpagerouter;

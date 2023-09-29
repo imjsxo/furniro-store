@@ -11,7 +11,7 @@ const Navbar = () => {
             <div className='flex gap-16 text-base font-medium outline-0'>
                 <Link href="/">Home</Link>
                 <Link href="/">Shop</Link>
-                <Link href="/">About</Link>
+                <Link href="/about">About</Link>
                 <Link href="/">Contact</Link>
             </div>
             {/* <form className='flex items-center border border-gray-400 rounded-xl px-2 py-2 '>

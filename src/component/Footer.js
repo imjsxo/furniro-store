@@ -17,7 +17,7 @@ const Footer = () => {
                                 <p className='text-[#9F9F9F]'>Links</p>
                                 <Link href='/' className='font-medium'>Home</Link>
                                 <Link href='/' className='font-medium'>Shop</Link>
-                                <Link href='/' className='font-medium'>About</Link>
+                                <Link href='/about' className='font-medium'>About</Link>
                                 <Link href='/' className='font-medium'>Contact</Link>
                             </div> 
                             <div className='flex flex-col text-base gap-y-14 lg:gap-y-6 md:gap-y-6'>
